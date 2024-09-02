@@ -29,7 +29,7 @@ const cartItemsSchema = new mongoose.Schema({
         ref:'users',
         required: true,
     },
-    discountedPrice:{
+    discountPrice:{
         type: Number,
         required: true,
     },
