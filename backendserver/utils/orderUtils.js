@@ -1,15 +1,16 @@
 const Address = require('../models/addressModel');
 const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
+const OrderItem = require('../models/orderItemsModel')
 const { findUSerCart } = require('./cartUtils');
 
 
 async function createOrder(user, shippingAddress) {
     let address;
 
-    if(shippingAddress._id){
+    if(shippingAddress?._id){
 
-        let existingAddress = await Address.findById(shippingAddress._id)
+        let existingAddress = await Address.findById(shippingAddress?._id)
         address = existingAddress;
     }
     else{
@@ -18,15 +19,17 @@ async function createOrder(user, shippingAddress) {
         address.user = user;
         await address.save();
 
-        user.addresses.push(address);
+        console.log('address',address)
+
+        user.address.push(address);
         await user.save();
     }
 
-    const cart = await findUSerCart(user._id);
-    const orderItems = [];
+    const cart = await findUSerCart(user?._id);
+    let orderItems = [];
 
     for(const item of cart.cartItems){
-        const orderItem = new orderItems({
+        const orderItem = new OrderItem({
             price: item.price,
             Product: item.Product,
             quantity: item.quantity,
@@ -36,7 +39,8 @@ async function createOrder(user, shippingAddress) {
         })
 
         const createdOrderItem = await orderItem.save();
-        orderItems.push(createdOrderItem);
+        console.log('created OrderItem', createdOrderItem);
+        orderItems.push(createdOrderItem)
     }
 
     const createdOrder = new Order({
@@ -74,7 +78,7 @@ async function findOrderById(orderId) {
 
 //Admin utils
 
-async function placeOrder(orderId) {
+async function placeOrderUtil(orderId) {
 
     try {
 
@@ -89,7 +93,7 @@ async function placeOrder(orderId) {
     }
 }
 
-async function confirmOrder(orderId) {
+async function confirmOrderUtil(orderId) {
 
     try {
 
@@ -103,7 +107,7 @@ async function confirmOrder(orderId) {
     }
 }
 
-async function shipOrder(orderId) {
+async function shipOrderUtil(orderId) {
 
     try {
 
@@ -117,7 +121,7 @@ async function shipOrder(orderId) {
     }
 }
 
-async function deliverOrder(orderId) {
+async function deliverOrderUtil(orderId) {
 
     try {
 
@@ -130,7 +134,7 @@ async function deliverOrder(orderId) {
 
     }
 }
-async function cancelOrder(orderId) {
+async function cancelOrderUtil(orderId) {
 
     try {
 
@@ -161,7 +165,7 @@ async function userOrderHistory(userId) {
     }
 }
 
-async function getAllOrders() {
+async function fetchAllOrders() {
     
     try {
 
@@ -180,7 +184,7 @@ async function getAllOrders() {
     }
 }
 
-async function deleteOrder(orderId) {
+async function deleteOrderUtil(orderId) {
     
     const order = await findOrderById(orderId)
     return await Order.findByIdAndDelete(order._id)
@@ -191,12 +195,12 @@ async function deleteOrder(orderId) {
 module.exports = {
     createOrder,
     findOrderById,
-    placeOrder,
-    confirmOrder,
-    shipOrder,
-    deliverOrder,
-    cancelOrder,
+    placeOrderUtil,
+    confirmOrderUtil,
+    shipOrderUtil,
+    deliverOrderUtil,
+    cancelOrderUtil,
     userOrderHistory,
-    getAllOrders,
-    deleteOrder,
+    fetchAllOrders,
+    deleteOrderUtil,
 }

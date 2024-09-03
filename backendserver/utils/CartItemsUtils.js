@@ -5,7 +5,7 @@ const { findUserById } = require('./userUtils');
 
 async function findCartItemById(cartItemId) {
 
-    let cartItem = await CartItems.findById(cartItemId)
+    let cartItem = await CartItems.findById(cartItemId).populate('product');
     try {
         if(cartItem){
             return cartItem
@@ -27,21 +27,31 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
         if(!item){
             throw new Error("selected item not found from your data");
         }
-
         let user = await findUserById(item.userId)
-
         if(!user){
             throw new Error("User Not found");
-            
         }
 
         if(user._id.toString() === userId.toString()){
 
             item.quantity = cartItemData.quantity;
-            item.price = item.quantity*item.product.price;
+            item.size = cartItemData.size
+            item.price = (item.quantity)*item.product.price;
             item.discountPrice = item.quantity*item.product.discountPrice;
             const updatedCart = await item.save();
-            return updatedCart
+            const updatedCartWithoutProduct = {
+                _id: updatedCart._id,
+                cart: updatedCart.cart,
+                quantity: updatedCart.quantity,
+                price: updatedCart.price,
+                discountPrice: updatedCart.discountPrice,
+                userId: updatedCart.userId,
+                size: updatedCart.size,
+                createdAt: updatedCart.createdAt,
+                updatedAt: updatedCart.updatedAt,
+                __v: updatedCart.__v
+            };
+            return updatedCartWithoutProduct
         }
         else{
             throw new Error(" You're not authorized to update the cart");

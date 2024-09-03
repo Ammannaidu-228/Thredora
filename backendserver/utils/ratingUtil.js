@@ -1,5 +1,4 @@
 const Rating = require("../models/ratingModel");
-const Review = require("../models/reviewModel");
 const { findProductById } = require("./productUtil");
 
 

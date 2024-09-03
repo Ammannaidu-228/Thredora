@@ -54,21 +54,20 @@ async function findUSerCart(userid) {
 async function addcartItem(userId, req) {
 
     try {
-
         const cart = await Cart.findOne({user:userId})
-        const product = await Product.findOne(req.productId)
-
-        const isPresent = await CartItems.findOne({cart: cart._id, product: product._id, userId})
+        const product = await Product.findOne({_id: req.productId})
+        console.log(product);
+        const isPresent = await CartItems.findOne({cart: cart?._id, product: product?._id, userId})
 
         if(!isPresent){
             const cartItems = await new CartItems({
-                product: product._id,
-                cart: cart._id,
+                product: product?._id,
+                cart: cart?._id,
                 quantity: 1,
                 userId,
-                price: product.price,
+                price: product?.price,
                 size: req.size,
-                discountPrice: product.discountPrice,
+                discountPrice: product?.discountPrice,
 
             });
 
@@ -81,10 +80,7 @@ async function addcartItem(userId, req) {
     } catch (error) {
         throw new Error(error.message);
 
-    }
-
-
-    
+    } 
 }
 
 
