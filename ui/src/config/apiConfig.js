@@ -1,0 +1,1 @@
+export const Frontend_Base_Url = 'http://localhost:3000';

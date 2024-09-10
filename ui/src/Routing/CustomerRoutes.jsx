@@ -1,0 +1,28 @@
+import { Route, Routes } from 'react-router-dom'
+import HomePage from '../customer/pages/homepage/HomePage'
+import Cart from '../customer/components/Cart/Cart'
+import Product from '../customer/components/Product/Product'
+import ProductDetails from '../customer/components/Product/Productdetails/ProductDetails'
+import Checkout from '../customer/components/Checkout/Checkout'
+import Order from '../customer/components/Order/Order'
+import OrderDetails from '../customer/components/Order/OrderDetails'
+
+function CustomerRoutes() {
+  return (
+    <div>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/:levelOne/:levelTwo/:levelThree' element={<Product />} />
+        <Route path='/product/:productId' element={<ProductDetails />} />
+        <Route path='/checkout' element={<Checkout />} />
+        <Route path='/account/order' element={<Order />} />
+        <Route path='/account/order/:orderId' element={<OrderDetails />} />
+        <Route path='/user/login' element={<HomePage />} />
+        <Route path='/user/signup' element={<HomePage />} />
+      </Routes>
+    </div>
+  )
+}
+
+export default CustomerRoutes

@@ -1,13 +1,16 @@
 import { dress } from "../../../Data/dress/dress"
-import { mens_kurta } from "../../../Data/Men/men_kurta"
 import { men_shirt } from "../../../Data/Men/men_shirt"
+import { mens_kurta } from "../../../Data/Men/mens_kurta"
 import { shoes } from "../../../Data/shoes"
 import HomeSectionCardCarousel from "../../components/Carousel/HomeCarousel/HomeSectionCardscarousel/HomeSectionCardCarousel"
 import MainCarousel from "../../components/Carousel/HomeCarousel/MainCarousel/MainCarousel"
+import Footer from "../../components/Footer/Footer"
+import Navbar from "../../components/Navbar/Navbar"
 
 function HomePage() {
   return (
     <div>
+      <Navbar/>
       <div>
         <MainCarousel />
       </div>
@@ -17,7 +20,7 @@ function HomePage() {
         <HomeSectionCardCarousel data={mens_kurta} sectionName={"Men Kurtas"} />
         <HomeSectionCardCarousel data={shoes} sectionName={"Men Shoes"} />
       </div>
-
+      <Footer/>
     </div>
   )
 }

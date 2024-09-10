@@ -12,9 +12,10 @@ const productRoutes = require('./routes/productRoutes')
 const ratingRoutes = require('./routes/ratingRoutes')
 const reviewRoutes = require('./routes/reviewRoutes')
 const app = express();
+const cors = require('cors')
 
 //middlewares
-
+app.use(cors())
 app.use(bodyParser());
 //Db conncetion 
 dbConnection("mongodb+srv://Ammannaidu:EmRb80Qcq01HzgX9@cluster0.ulqbe.mongodb.net/StyleStride")

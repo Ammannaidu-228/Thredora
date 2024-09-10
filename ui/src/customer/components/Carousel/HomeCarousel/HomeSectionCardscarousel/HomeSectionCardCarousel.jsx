@@ -10,9 +10,14 @@ import PropTypes from 'prop-types';
 
 function HomeSectionCardCarousel({ data, sectionName }) {
   const responsive = {
-    0: { items: 1 },
-    720: { items: 3 },
-    1024: { items: 4.3 },
+    0: { items: 1.5 },
+    344: { items: 1 },
+    540: { items: 1.5 },
+    720: { items: 2.8 },
+    768: { items: 2.5 },
+    912: { items: 2.8 },
+    1024:{items: 3.3},
+    1280: { items: 4.3}
   };
   const carouselRef = useRef(null);
 
