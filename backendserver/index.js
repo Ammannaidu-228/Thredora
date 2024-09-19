@@ -1,7 +1,16 @@
 const express = require('express');
+const app = express();
+const cors = require('cors')
+const bodyParser = require('body-parser')
+
+//middlewares
+app.use(cors())
+app.use(bodyParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const { dbConnection } = require('./utils/dbConncetion');
 const Port = 3000;
-const bodyParser = require('body-parser')
 const userRoutes = require('./routes/userRoutes')
 const adminProductRoutes = require('./routes/adminProductRoutes')
 const adminRoutes = require('./routes/adminRoutes')
@@ -11,12 +20,9 @@ const orderRoutes = require('./routes/orderRoutes')
 const productRoutes = require('./routes/productRoutes')
 const ratingRoutes = require('./routes/ratingRoutes')
 const reviewRoutes = require('./routes/reviewRoutes')
-const app = express();
-const cors = require('cors')
 
-//middlewares
-app.use(cors())
-app.use(bodyParser());
+
+
 //Db conncetion 
 dbConnection("mongodb+srv://Ammannaidu:EmRb80Qcq01HzgX9@cluster0.ulqbe.mongodb.net/StyleStride")
 

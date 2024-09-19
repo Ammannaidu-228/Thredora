@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-constant-condition */
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -14,212 +15,236 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-} from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import debounce from 'lodash/debounce';
-import { useLocation, useNavigate } from 'react-router-dom'
-import AuthModal from '../Authentication/AuthModal'
-import { Avatar, Menu, MenuItem } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../../state/Auth/Action';
+} from "@headlessui/react";
+import {
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import debounce from "lodash/debounce";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Avatar, Menu, MenuItem } from "@mui/material";
+import { deepPurple } from "@mui/material/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, logout } from "../../../state/Auth/Action";
 
 const navigation = {
   categories: [
     {
-      id: 'women',
-      name: 'Women',
+      id: "women",
+      name: "Women",
       featured: [
         {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+          name: "New Arrivals",
+          href: "#",
+          imageSrc:
+            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
+          imageAlt:
+            "Models sitting back to back, wearing Basic Tee in black and bone.",
         },
         {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-          imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+          name: "Basic Tees",
+          href: "#",
+          imageSrc:
+            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
+          imageAlt:
+            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
         },
       ],
       sections: [
         {
-          id: 'clothing',
-          name: 'Clothing',
+          id: "clothing",
+          name: "Clothing",
           items: [
-            { name: 'Tops', href: '#' },
-            { name: 'Dresses', href: '#' },
-            { name: 'Pants', href: '#' },
-            { name: 'Denim', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-            { name: 'Activewear', href: '#' },
-            { name: 'Browse All', href: '#' },
+            { name: "Tops", href: "#" },
+            { name: "Dresses", href: "#" },
+            { name: "Pants", href: "#" },
+            { name: "Denim", href: "#" },
+            { name: "Sweaters", href: "#" },
+            { name: "T-Shirts", href: "#" },
+            { name: "Jackets", href: "#" },
+            { name: "Activewear", href: "#" },
+            { name: "Browse All", href: "#" },
           ],
         },
         {
-          id: 'accessories',
-          name: 'Accessories',
+          id: "accessories",
+          name: "Accessories",
           items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' },
+            { name: "Watches", href: "#" },
+            { name: "Wallets", href: "#" },
+            { name: "Bags", href: "#" },
+            { name: "Sunglasses", href: "#" },
+            { name: "Hats", href: "#" },
+            { name: "Belts", href: "#" },
           ],
         },
         {
-          id: 'brands',
-          name: 'Brands',
+          id: "brands",
+          name: "Brands",
           items: [
-            { name: 'Full Nelson', href: '#' },
-            { name: 'My Way', href: '#' },
-            { name: 'Re-Arranged', href: '#' },
-            { name: 'Counterfeit', href: '#' },
-            { name: 'Significant Other', href: '#' },
+            { name: "Full Nelson", href: "#" },
+            { name: "My Way", href: "#" },
+            { name: "Re-Arranged", href: "#" },
+            { name: "Counterfeit", href: "#" },
+            { name: "Significant Other", href: "#" },
           ],
         },
       ],
     },
     {
-      id: 'men',
-      name: 'Men',
+      id: "men",
+      name: "Men",
       featured: [
         {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
-          imageAlt: 'Drawstring top with elastic loop closure and textured interior padding.',
+          name: "New Arrivals",
+          href: "#",
+          imageSrc:
+            "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
+          imageAlt:
+            "Drawstring top with elastic loop closure and textured interior padding.",
         },
         {
-          name: 'Artwork Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
+          name: "Artwork Tees",
+          href: "#",
+          imageSrc:
+            "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg",
           imageAlt:
-            'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
+            "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
         },
       ],
       sections: [
         {
-          id: 'clothing',
-          name: 'Clothing',
+          id: "clothing",
+          name: "Clothing",
           items: [
-            { name: 'Tops', href: '#' },
-            { name: 'Pants', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-            { name: 'Activewear', href: '#' },
-            { name: 'Browse All', href: '#' },
+            { name: "Tops", href: "#" },
+            { name: "Pants", href: "#" },
+            { name: "Sweaters", href: "#" },
+            { name: "T-Shirts", href: "#" },
+            { name: "Jackets", href: "#" },
+            { name: "Activewear", href: "#" },
+            { name: "Browse All", href: "#" },
           ],
         },
         {
-          id: 'accessories',
-          name: 'Accessories',
+          id: "accessories",
+          name: "Accessories",
           items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' },
+            { name: "Watches", href: "#" },
+            { name: "Wallets", href: "#" },
+            { name: "Bags", href: "#" },
+            { name: "Sunglasses", href: "#" },
+            { name: "Hats", href: "#" },
+            { name: "Belts", href: "#" },
           ],
         },
         {
-          id: 'brands',
-          name: 'Brands',
+          id: "brands",
+          name: "Brands",
           items: [
-            { name: 'Re-Arranged', href: '#' },
-            { name: 'Counterfeit', href: '#' },
-            { name: 'Full Nelson', href: '#' },
-            { name: 'My Way', href: '#' },
+            { name: "Re-Arranged", href: "#" },
+            { name: "Counterfeit", href: "#" },
+            { name: "Full Nelson", href: "#" },
+            { name: "My Way", href: "#" },
           ],
         },
       ],
     },
   ],
   pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
+    { name: "Company", href: "#" },
+    { name: "Stores", href: "#" },
   ],
-}
+};
+import AuthModal from "../Authentication/AuthModal";
 
 function Navbar() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   let navigate = useNavigate();
-  const {auth} = useSelector(store=> store)
-  const userToken = localStorage.getItem("userToken")
+  const { auth } = useSelector((store) => store);
+  const userToken = localStorage.getItem("userToken");
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const location = useLocation();
-  const openUserMenu = Boolean(anchorEl); // Menu open if anchorEl is not null
+  const openUserMenu = Boolean(anchorEl);
 
-  // Handle avatar click to open the menu
   const handleUserClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // Handle closing of the menu
   const handleCloseUserMenu = () => {
     setAnchorEl(null);
   };
 
-  //Auth
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
   const handleOpen = () => {
-    setOpenAuthModal(true)
-  }
+    setOpenAuthModal(true);
+  };
+
   const handleClose = () => {
-    setOpenAuthModal(false)
-  }
+    setOpenAuthModal(false);
+  };
 
   const handleCart = debounce(() => {
-    navigate('/cart');
-  }, 500); // Limit navigation to once every 500ms
+    navigate("/cart");
+  }, 500);
 
   const handleCategory = (category, item, section, close) => {
     debounce(() => {
       navigate(`/${category.id}/${section.id}/${item.id}`);
-    }, 500)
+    }, 500);
     close();
-  }
+  };
 
   const handleUserSignIn = (event) => {
     event.preventDefault();
     setOpenAuthModal(true);
-    navigate('/user/login');
-  }
+    navigate("/user/login");
+  };
+  const handleUserRegistration = (event) => {
+    event.preventDefault();
+    setOpenAuthModal(true);
+    navigate("/user/signup");
+  };
 
   useEffect(() => {
-    dispatch(getUser(userToken))
-  }, [userToken, auth.userToken])
+    if (userToken) {
+      dispatch(getUser(userToken));
+      console.log("user FirstName", auth);
+    }
+  }, [userToken, auth.userToken]);
 
   useEffect(() => {
     if (auth.user) {
       handleClose();
     }
-    if (location.pathname === '/user/login' || location.pathname === '/user/signup') {
+    if (
+      location.pathname === "/user/login" ||
+      location.pathname === "/user/signup"
+    ) {
       navigate(-1);
     }
-  }, [auth.user])
+  }, [auth.user]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.clear();
+    handleCloseUserMenu();
+  };
+  const handleCategories = ()=>{
+    
+  }
 
   return (
     <div className="bg-white relative z-10">
       {/* Mobile menu */}
       <Dialog open={open} onClose={setOpen} className="relative z-40 lg:hidden">
-        <DialogBackdrop
-          transition
-          className="fixed inset-0 bg-black bg-opacity-25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
-        />
+        <DialogBackdrop className="fixed inset-0 bg-black bg-opacity-25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0" />
         <div className="fixed inset-0 z-40 flex">
-          <DialogPanel
-            transition
-            className="relative flex w-full max-w-xs transform flex-col overflow-y-auto bg-white pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:-translate-x-full"
-          >
+          <DialogPanel className="relative flex w-full max-w-xs transform flex-col overflow-y-auto bg-white pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:-translate-x-full">
             <div className="flex px-4 pb-2 pt-5">
               <button
                 type="button"
@@ -248,23 +273,25 @@ function Navbar() {
               </div>
               <TabPanels as={Fragment}>
                 {navigation.categories.map((category) => (
-                  <TabPanel key={category.name} className="space-y-10 px-4 pb-8 pt-10">
+                  <TabPanel
+                    key={category.name}
+                    className="space-y-10 px-4 pb-8 pt-10"
+                  >
                     <div className="grid grid-cols-2 gap-x-4">
                       {category.featured.map((item) => (
-                        <div
-                          key={item.name}
-                          className="group relative text-sm"
-                          onClick={() => handleCategory(category, item)}
-                        >
+                        <div key={item.name} className="group relative text-sm">
                           <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                             <img
-                              src={item.imageSrc}
                               alt={item.imageAlt}
+                              src={item.imageSrc}
                               className="object-cover object-center"
                             />
                           </div>
-                          <a href={item.href} className="mt-6 block font-medium text-gray-900">
-                            <span className="absolute inset-0 z-10" aria-hidden="true" />
+                          <a
+                            href={item.href}
+                            className="mt-6 block font-medium text-gray-900"
+                          >
+                            <span className="absolute inset-0 z-10" />
                             {item.name}
                           </a>
                           <p aria-hidden="true" className="mt-1">
@@ -275,17 +302,22 @@ function Navbar() {
                     </div>
                     {category.sections.map((section) => (
                       <div key={section.name}>
-                        <p id={`${category.id}-${section.id}-heading-mobile`} className="font-medium text-gray-900">
+                        <p
+                          id={`${category.id}-${section.id}-heading-mobile`}
+                          className="font-medium text-gray-900"
+                        >
                           {section.name}
                         </p>
                         <ul
-                          role="list"
-                          aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
+                          aria-labelledby={`${category.id}-${section.id}-heading-mobile}`}
                           className="mt-6 flex flex-col space-y-6"
                         >
                           {section.items.map((item) => (
-                            <li key={item.name} className="flow-root" onClick={() => handleCategory(category, item, section)}>
-                              <a href={item.href} className="-m-2 block p-2 text-gray-500">
+                            <li key={item.name} className="flow-root">
+                              <a
+                                href={item.href}
+                                className="-m-2 block p-2 text-gray-500"
+                              >
                                 {item.name}
                               </a>
                             </li>
@@ -298,52 +330,57 @@ function Navbar() {
               </TabPanels>
             </TabGroup>
 
-            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+            <div className="space-y-6 border-t border-gray-200 py-6 px-4">
               {navigation.pages.map((page) => (
                 <div key={page.name} className="flow-root">
-                  <a href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                  <a
+                    href={page.href}
+                    className="-m-2 block p-2 font-medium text-gray-900"
+                  >
                     {page.name}
                   </a>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+            <div className="space-y-6 border-t border-gray-200 py-6 px-4">
               <div className="flow-root">
-                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                  Sign in
-                </a>
+                <Link
+                  onClick={handleUserSignIn}
+                  to={"/user/login"}
+                  href="#"
+                  className="-m-2 block p-2 font-medium text-gray-900"
+                >
+                  Log in
+                </Link>
               </div>
               <div className="flow-root">
-                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                <Link
+                  onClick={handleUserRegistration}
+                  to={"/user/signup"}
+                  na
+                  href="#"
+                  className="-m-2 block p-2 font-medium text-gray-900"
+                >
                   Create account
-                </a>
+                </Link>
               </div>
-            </div>
-
-            <div className="border-t border-gray-200 px-4 py-6">
-              <a href="#" className="-m-2 flex items-center p-2">
-                <img
-                  src="https://tailwindui.com/img/flags/flag-canada.svg"
-                  alt=""
-                  className="block h-auto w-5 flex-shrink-0"
-                />
-                <span className="ml-3 block text-base font-medium text-gray-900">CAD</span>
-                <span className="sr-only">, change currency</span>
-              </a>
             </div>
           </DialogPanel>
         </div>
       </Dialog>
 
       <header className="relative z-10 bg-white">
-        <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav
+          aria-label="Top"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        >
           <div className="border-b border-gray-200">
             <div className="flex h-16 items-center">
               <button
                 type="button"
-                className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
                 onClick={() => setOpen(true)}
+                className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
               >
                 <span className="sr-only">Open menu</span>
                 <Bars3Icon aria-hidden="true" className="h-6 w-6" />
@@ -352,13 +389,15 @@ function Navbar() {
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
                 <a href="#">
-                  <span className="sr-only">Your Company</span>
                   <img
-                    className="h-8 w-auto"
+                    alt="Your Company"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt=""
+                    className="h-8 w-auto"
                   />
                 </a>
+                <span className="text-2xl  px-3 font-semibold font-serif text-gray-700 hover:text-gray-800">
+                  Threadora
+                </span>
               </div>
 
               {/* Flyout menus */}
@@ -366,32 +405,38 @@ function Navbar() {
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
-                      {({ open, close }) => (
+                      {({ close }) => (
                         <>
-                          <PopoverButton className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium text-gray-700 hover:text-gray-800">
+                          <PopoverButton className="relative z-10 -mb-px flex items-center border-b-2 border-transparent text-sm font-medium text-gray-700 hover:border-gray-200 hover:text-gray-800">
                             {category.name}
                           </PopoverButton>
 
                           <PopoverPanel className="absolute inset-x-0 top-full text-sm text-gray-500">
-                            {/* Mega menu */}
                             <div
-                              className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true"
+                              className="absolute inset-0 top-1/2 bg-white shadow"
+                              aria-hidden="true"
                             />
-                            <div className="relative bg-white z-10">
+                            <div className="relative bg-white">
                               <div className="mx-auto max-w-7xl px-8">
                                 <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
                                   <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                     {category.featured.map((item) => (
-                                      <div key={item.name} className="group relative text-base sm:text-sm" onClick={() => handleCategory(category, item)}>
+                                      <div
+                                        key={item.name}
+                                        className="group relative text-base sm:text-sm"
+                                      >
                                         <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                           <img
-                                            src={item.imageSrc}
                                             alt={item.imageAlt}
+                                            src={item.imageSrc}
                                             className="object-cover object-center"
                                           />
                                         </div>
-                                        <a href={item.href} className="mt-6 block font-medium text-gray-900">
-                                          <span className="absolute inset-0 z-10" aria-hidden="true" />
+                                        <a
+                                          href={item.href}
+                                          className="mt-6 block font-medium text-gray-900"
+                                        >
+                                          <span className="absolute inset-0 z-10" />
                                           {item.name}
                                         </a>
                                         <p aria-hidden="true" className="mt-1">
@@ -403,19 +448,34 @@ function Navbar() {
                                   <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
                                     {category.sections.map((section) => (
                                       <div key={section.name}>
-                                        <p id={`${section.name}-heading`} className="font-medium text-gray-900">
+                                        <p
+                                          id={`${section.name}-heading`}
+                                          className="font-medium text-gray-900"
+                                        >
                                           {section.name}
                                         </p>
                                         <ul
-                                          role="list"
                                           aria-labelledby={`${section.name}-heading`}
                                           className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                         >
                                           {section.items.map((item) => (
-                                            <li key={item.name} className="flex" onClick={() => handleCategory(category, item, section, close)}>
-                                              <a href={item.href} className="hover:text-gray-800">
+                                            <li
+                                              key={item.name}
+                                              className="flex"
+                                            >
+                                              <Button
+                                                className="text-gray-500"
+                                                onClick={() =>
+                                                  handleCategory(
+                                                    category,
+                                                    item,
+                                                    section,
+                                                    close
+                                                  )
+                                                }
+                                              >
                                                 {item.name}
-                                              </a>
+                                              </Button>
                                             </li>
                                           ))}
                                         </ul>
@@ -430,37 +490,52 @@ function Navbar() {
                       )}
                     </Popover>
                   ))}
+
+                  {navigation.pages.map((page) => (
+                    <a
+                      key={page.name}
+                      href={page.href}
+                      className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                    >
+                      {page.name}
+                    </a>
+                  ))}
                 </div>
               </PopoverGroup>
 
               <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-5">
-                  {auth.user?.firstName ? (
+                {/* User Account */}
+                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                  {auth.user ? (
                     <div>
                       <Avatar
-                        className='text-white'
                         onClick={handleUserClick}
-                        aria-controls={openUserMenu ? "basic-menu" : undefined}
-                        aria-haspopup='true'
-                        aria-expanded={openUserMenu ? "true" : undefined}
                         sx={{
                           bgcolor: deepPurple[500],
-                          color: 'white',
-                          cursor: 'pointer'
+                          color: "white",
+                          cursor: "pointer",
                         }}
                       >
-                        {auth.user?.firstName[0].toUpperCase()}
+                        {auth.user?.firstName ? (
+                          <div>{auth.user?.firstName[0].toUpperCase()}</div>
+                        ) : (
+                          ""
+                        )}
                       </Avatar>
 
                       <Menu
-                        id='basic-menu'
+                        id="basic-menu"
                         anchorEl={anchorEl}
                         open={openUserMenu}
                         onClose={handleCloseUserMenu}
                         MenuListProps={{ "aria-labelledby": "basic-button" }}
                       >
-                        <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
-                        <MenuItem onClick={() => navigate('/orders')}>My Orders</MenuItem>
+                        <MenuItem onClick={handleCloseUserMenu}>
+                          Profile
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate("/account/order")}>
+                          My Orders
+                        </MenuItem>
                         <MenuItem onClick={handleLogout}>Logout</MenuItem>
                       </Menu>
                     </div>
@@ -476,31 +551,39 @@ function Navbar() {
 
                 {/* Search */}
                 <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                  <p className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
-                  </a>
+                    <MagnifyingGlassIcon
+                      aria-hidden="true"
+                      className="h-6 w-6"
+                    />
+                  </p>
                 </div>
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2" onClick={handleCart}>
+                  <Button
+                    onClick={handleCart}
+                    className="group -m-2 flex items-center p-3"
+                  >
                     <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
+                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                      0
+                    </span>
                     <span className="sr-only">items in cart, view bag</span>
-                  </a>
+                  </Button>
                 </div>
               </div>
             </div>
           </div>
         </nav>
       </header>
-      <AuthModal open={openAuthModal} handleClose={handleClose} />
+      <AuthModal handleClose={handleClose} open={openAuthModal} />
     </div>
-  )
+  );
 }
 
 export default Navbar;

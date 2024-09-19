@@ -4,7 +4,7 @@ const { findUserById } = require('./userUtils');
 
 
 async function findCartItemById(cartItemId) {
-
+    console.log(cartItemId)
     let cartItem = await CartItems.findById(cartItemId).populate('product');
     try {
         if(cartItem){
@@ -70,6 +70,7 @@ async function removecartItemById(userId, cartItemId) {
         const user = await findUserById(userId);
     
         if(user._id.toString() === cartitem.userId.toString()){
+            console.log("Matched")
             await CartItems.findByIdAndDelete(cartitem);
         }
         

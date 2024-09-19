@@ -13,13 +13,13 @@ function CustomerRoutes() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/user/login' element={<HomePage />} />
+        <Route path='/user/signup' element={<HomePage />} />
         <Route path='/:levelOne/:levelTwo/:levelThree' element={<Product />} />
         <Route path='/product/:productId' element={<ProductDetails />} />
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/account/order' element={<Order />} />
         <Route path='/account/order/:orderId' element={<OrderDetails />} />
-        <Route path='/user/login' element={<HomePage />} />
-        <Route path='/user/signup' element={<HomePage />} />
       </Routes>
     </div>
   )

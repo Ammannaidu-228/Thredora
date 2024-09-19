@@ -1,4 +1,5 @@
 const { createProduct, deleteProduct, updateProduct, findProductById, getAllProducts, createMultipleproducts } = require("../utils/productUtil");
+const { ObjectId } = require('mongodb'); // Import MongoDB ObjectId
 
 async function createProducts(req,res) {
     const data = req.body;
@@ -21,7 +22,7 @@ async function deleteProducts(req,res) {
 }
 
 async function updateProducts(req,res) {
-    const productId = req.params.idd;
+    const productId = req.params.id;
     const data = req.body;
     try {
         const updatedProduct = await updateProduct(productId,data)
@@ -32,7 +33,10 @@ async function updateProducts(req,res) {
 }
 
 async function findProductsById(req,res) {
-    const data = req.params.id;
+    const data = req.params.productId;
+    if (!ObjectId.isValid(data)) {
+        return res.status(400).send({ message: 'Invalid Product ID format' });
+    }
     try {
         const products = await findProductById(data)
         res.status(200).send({message:'Product fetched successfully', products})

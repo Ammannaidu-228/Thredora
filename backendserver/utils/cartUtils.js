@@ -52,11 +52,9 @@ async function findUSerCart(userid) {
 }
 
 async function addcartItem(userId, req) {
-
     try {
         const cart = await Cart.findOne({user:userId})
         const product = await Product.findOne({_id: req.productId})
-        console.log(product);
         const isPresent = await CartItems.findOne({cart: cart?._id, product: product?._id, userId})
 
         if(!isPresent){

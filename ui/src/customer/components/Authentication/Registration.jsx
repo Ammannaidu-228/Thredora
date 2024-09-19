@@ -1,8 +1,10 @@
 import { Button, Grid, TextField } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { getUser, register } from "../../../state/Auth/Action";
 import { useEffect } from "react";
+
+
 function Registration() {
     const dispatch = useDispatch();
     const userToken = localStorage.getItem("userToken")
@@ -19,7 +21,7 @@ function Registration() {
 
 
 
-    const handleFromSubMission = (event)=>{
+    const handleFromSubMission = async (event)=>{
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
@@ -33,6 +35,7 @@ function Registration() {
 
         console.log("userData", userData);
         dispatch(register(userData))
+        await redirect('/user/login')
 
     }
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Step, StepLabel, Stepper } from "@mui/material"
 
 function OrderTracker({activeStep}) {

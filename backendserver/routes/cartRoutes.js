@@ -6,6 +6,6 @@ const router = express.Router();
 
 
 router.get('/', authenticate, findUsersCarts)
-router.put('/add', authenticate, addItemsToCarts)
+router.post('/add', authenticate, addItemsToCarts)
 
 module.exports = router;
