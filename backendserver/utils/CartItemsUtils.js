@@ -34,10 +34,10 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
 
         if(user._id.toString() === userId.toString()){
 
-            item.quantity = cartItemData.quantity;
-            item.size = cartItemData.size
-            item.price = (item.quantity)*item.product.price;
-            item.discountPrice = item.quantity*item.product.discountPrice;
+            item.quantity = cartItemData.quantity || item.quantity;
+            item.size = cartItemData.size || item.size
+            item.price = (item.quantity)*item.product.price || item.price;
+            item.discountPrice = item.quantity*item.product.discountPrice || item.discountPrice;
             const updatedCart = await item.save();
             const updatedCartWithoutProduct = {
                 _id: updatedCart._id,

@@ -47,12 +47,14 @@ export const removeCartItem = (cartItemId)=> async (dispatch)=>{
 
 export const updateCartItem = (reqData)=> async (dispatch)=>{
     console.log("update data in the Ui", reqData)
-    console.log("update data in the Ui", reqData.cartItemId)
+    console.log("update data in the Ui", reqData.cartId)
 
     dispatch({type: UPDATE_CART_ITEM_REQUEST})
 
     try {
-        const {data} = await api.put(`/cart-items/${reqData.cartItemId}`, reqData.data)
+        const {data} = await api.put(`/cart-items/${reqData.cartItemId}`, reqData)
+                                .then((responce)=>console.log("responce after Updating The Cart Item",responce.data))
+                                .catch((error)=> console.error("Error", error))
         dispatch({type: UPDATE_CART_ITEM_SUCCESS, payload:data})
         
     } catch (error) {

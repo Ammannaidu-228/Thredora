@@ -1,10 +1,19 @@
 import { Box, Button, Grid, TextField } from "@mui/material"
 import AddressCard from "../AddressCard/AddressCard"
-import { useState } from "react"
+import {  useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { createOrder } from "../../../state/Order/Action"
+// eslint-disable-next-line no-unused-vars
+import { store } from "../../../state/store"
 
 const DeliveryAddress = () => {
     let[address, setAddress] = useState({})
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const {auth} = useSelector(store=> store) 
+    console.log("In the Delivery ",auth.user);
     const handleFormSubMission = (e)=>{
         e.preventDefault();
         const data = new FormData(e.currentTarget);
@@ -13,28 +22,30 @@ const DeliveryAddress = () => {
             lastName: data.get("lastName"),
             phone: data.get("phone"),
             zipCode: data.get("zipCode"),
-            Address: data.get("Address"),
+            streetAddress: data.get("Address"),
             city: data.get("city"),
             state: data.get("state"),
         }
         console.log("formdata", address)
+        const orderdata = {address, navigate}
+        dispatch(createOrder(orderdata))
         setAddress({
             firstName: "",
             lastName: "",
             phone: "",
             zipCode: "",
-            Address: "",
+            streetAddress: "",
             city: "",
             state: "",
         })
-        data.set()
     }
   return (
     <div className="mb-10">
         <Grid container spacing={4}>
             <Grid xs={12} lg={5} className="border rounded-e-md shadow-md h-[30.5rem] overflow-y-scroll">
                 <div className="p-5 py-7 border-b cursor-pointer">
-                    <AddressCard/>
+                    <h2 className="font-bold">Saved Addresses:</h2>
+                    {auth.user?.address?.map((item, index)=> <AddressCard shippingAddress={item} key={index}/>)}
                     <Button sx={{mt:'2' }} variant="contained" size="large">Continue</Button>
                 </div>
 

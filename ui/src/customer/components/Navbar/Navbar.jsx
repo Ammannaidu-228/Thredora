@@ -159,11 +159,12 @@ const navigation = {
   ],
 };
 import AuthModal from "../Authentication/AuthModal";
+import { store } from "../../../state/store";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
-  const { auth } = useSelector((store) => store);
+  const { auth, cart } = useSelector((store) => store);
   const userToken = localStorage.getItem("userToken");
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
@@ -571,7 +572,7 @@ function Navbar() {
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
+                      {cart.cartItems?.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Button>

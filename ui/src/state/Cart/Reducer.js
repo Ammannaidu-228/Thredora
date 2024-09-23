@@ -51,13 +51,13 @@ export const cartReducer = (state = initialState, action) => {
     case REMOVE_CART_ITEM_SUCCESS:
       return {
         ...state,
-        deleteCartItem: state.cartItems.filter((item) => item.id !== action.payload),
+        deleteCartItem: action.payload,
         loading: false,
       };
     case UPDATE_CART_ITEM_SUCCESS:
       return {
         ...state,
-        updateCartItems: action.payload,
+        updateCartItem: action.payload,
         loading: false,
       };
     case REMOVE_CART_ITEM_FAILURE:

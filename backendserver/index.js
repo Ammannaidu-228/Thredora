@@ -20,7 +20,7 @@ const orderRoutes = require('./routes/orderRoutes')
 const productRoutes = require('./routes/productRoutes')
 const ratingRoutes = require('./routes/ratingRoutes')
 const reviewRoutes = require('./routes/reviewRoutes')
-
+const paymentRoutes = require('./routes/paymentRoutes')
 
 
 //Db conncetion 
@@ -35,10 +35,10 @@ app.use('/admin', adminRoutes);
 app.use('/admin/products', adminProductRoutes);
 app.use('/cart-items', cartItemRoutes);
 app.use('/cart', cartRoutes)
-app.use('/order', orderRoutes)
+app.use('/orders', orderRoutes)
 app.use('/products', productRoutes)
 app.use('/ratings', ratingRoutes)
 app.use('/reviews', reviewRoutes)
-
+app.use('/payments', paymentRoutes)
 app.listen(Port,
      ()=>{console.log(`Server Started at http://localhost:${Port}`)});

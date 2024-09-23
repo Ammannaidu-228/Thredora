@@ -30,7 +30,7 @@ async function findUSerCart(userid) {
     let totalItems = 0;
 
     for(let cartItem of cart.cartItems ){
-        totalPrice += cartItem.totalPrice;
+        totalPrice += cartItem.price;
         totalDiscountPrice += cartItem.discountPrice;
         totalItems += cartItem.quantity;
     }
@@ -38,6 +38,7 @@ async function findUSerCart(userid) {
     cart.totalItems = totalItems;
     cart.totalPrice = totalPrice;
     cart.discount = totalPrice - totalDiscountPrice;
+    cart.totalDiscountPrice = totalDiscountPrice
 
     return cart;
         

@@ -9,13 +9,14 @@ import { getCart } from "../../../state/Cart/Action"
 function Cart() {
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    const {cart} = useSelector(store=>store)
+    const { cart } = useSelector((store)=> store)
     const handleCheckOut = ()=>{
         navigate('/checkout?step=2')
     }
     useEffect(()=>{
+        console.log("Use Effect Called")
         dispatch(getCart())
-    },[dispatch, cart.updateCartItems, cart.deleteCartitem])
+    },[cart.deleteCartItem, cart.updateCartItem])
     return (
         <div>
             <Navbar/>
@@ -35,7 +36,7 @@ function Cart() {
                             </div>
                             <div className="flex justify-between px-2 pt-3 text-black">
                                 <span>Discount</span>
-                                <span className="text-orange-600">-₹{cart.cart?.totalDiscountPrice}</span>
+                                <span className="text-orange-600">-₹{cart.cart?.discount}</span>
                             </div>
                             <div className="flex justify-between px-2 pb-1 pt-3 text-black">
                                 <span>Delivery Charges</span>
@@ -44,7 +45,7 @@ function Cart() {
                             <hr />
                             <div className="flex justify-between px-2 pt-3 text-black">
                                 <span className="font-bold">TOTAL AMOUNT</span>
-                                <span className="text-green-600 font-bold">₹1200</span>
+                                <span className="text-green-600 font-bold">₹{cart.cart?.totalDiscountPrice}</span>
                             </div>
                         </div>
                         <Button onClick={handleCheckOut} className='success w-full' size='large' variant='contained'> CheckOuT</Button>

@@ -19,7 +19,6 @@ async function createOrder(user, shippingAddress) {
         address.user = user;
         await address.save();
 
-        console.log('address',address)
 
         user.address.push(address);
         await user.save();
@@ -31,7 +30,7 @@ async function createOrder(user, shippingAddress) {
     for(const item of cart.cartItems){
         const orderItem = new OrderItem({
             price: item.price,
-            Product: item.Product,
+            product: item.product,
             quantity: item.quantity,
             size: item.size,
             userId: item.userId,
@@ -39,7 +38,6 @@ async function createOrder(user, shippingAddress) {
         })
 
         const createdOrderItem = await orderItem.save();
-        console.log('created OrderItem', createdOrderItem);
         orderItems.push(createdOrderItem)
     }
 

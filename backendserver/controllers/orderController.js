@@ -5,6 +5,7 @@ async function createOrders(req,res) {
 
     const user = await req.user;
     const address = await req.body;
+    console.log("Address in the backend", address)
     
     try {
         const createdOrder = await createOrder(user,address)

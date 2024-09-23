@@ -4,11 +4,14 @@ const { updateCartItem, removecartItemById } = require("../utils/CartItemsUtils"
 async function updateCartsItems(req,res) {
 
     const userId = await req.user?._id;
-    const cartId = await  req.params.id;
-    const data = await req.body;
-    console.log(data)
+    const cartItemId = await  req.params.id;
+    const data = await req.body.data;
+    console.log("data",data)
+    console.log("userId",userId)
+    console.log("cartItemId",cartItemId)
+
     try {
-        const updatedCart = await updateCartItem(userId,cartId,data);
+        const updatedCart = await updateCartItem(userId,cartItemId,data);
         return res.status(200).send({message:'Cart Item Updated Successfully', updatedCart})
         
     } catch (error) {
