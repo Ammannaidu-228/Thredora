@@ -16,7 +16,7 @@ function Cart() {
     useEffect(()=>{
         console.log("Use Effect Called")
         dispatch(getCart())
-    },[cart.deleteCartItem, cart.updateCartItem])
+    },[dispatch,cart.deleteCartItem, cart.updateCartItem])
     return (
         <div>
             <Navbar/>

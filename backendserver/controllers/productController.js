@@ -47,6 +47,7 @@ async function findProductsById(req,res) {
 
 async function getAllProductsController(req,res) {
     const data = req.query;
+    console.log("Product Query Data in the backend", data)
     try {
         const products = await getAllProducts(data)
         res.status(200).send({message:'Products fetched successfully', products})

@@ -7,6 +7,6 @@ const {
 } = require("../controllers/paymentController");
 
 router.post("/:id", authenticate, generatePaymentLink);
-router.get('/', authenticate, updataPaymentsInfoInDb)
+router.get('/:id',  updataPaymentsInfoInDb)
 
 module.exports = router

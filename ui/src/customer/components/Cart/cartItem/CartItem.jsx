@@ -28,6 +28,7 @@ function CartItem({ item }) {
   const handleRemoveCartItem = () => {
     dispatch(removeCartItem(item._id));
   };
+  
 
   return (
     <div className="p-5 mb-3 shadow-lg border rounded-md">
@@ -41,7 +42,7 @@ function CartItem({ item }) {
         </div>
         <div className="ml-5 space-y-1">
           <p className="font-semibold">{item.product?.brand}</p>
-          <p className="opacity-70">{item.product?.description}</p>
+          <p className="opacity-70">{item.product?.title}</p>
           <p className="opacity-70 mt-2">
             size: {item.size}, {item.product?.color}
           </p>

@@ -77,7 +77,6 @@ export default function ProductDetails() {
       size: selectedSize?.name,
     };
     console.log("cartdata", cartData);
-
     if(cartData.size){
         dispatch(addItemToCart(cartData))
         navigate('/cart')
@@ -106,6 +105,7 @@ export default function ProductDetails() {
     };
     dispatch(findProductById(data));
     console.log("productData", data);
+    console.log("product data in the DetailPage", product.product)
     console.log("cartData", cartData);
   }, [params.productId, dispatch]);
 
@@ -195,7 +195,7 @@ export default function ProductDetails() {
                 <p className="opacity-50 line-through text-gray-900">
                   ₹{product.product?.products?.price}
                 </p>
-                <p className="font-semibold my-6 text-green-600">30%</p>
+                <p className="font-semibold my-6 text-green-600">{product.product?.products?.discountPercent}%</p>
               </div>
 
               {/* Reviews */}

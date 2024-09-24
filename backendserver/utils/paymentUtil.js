@@ -9,7 +9,7 @@ const createpaymentLink = async(orderId)=>{
         const order = await findOrderById(orderId)
         const paymentLinkRequest = {
 
-            amount: order.totalPrice*100,
+            amount: order.totalDiscountPrice*100,
             currency: "INR",
             customer: {
                 name: order.user.firstName + ""+ order.user.lastName,
@@ -21,7 +21,7 @@ const createpaymentLink = async(orderId)=>{
                 email: true,
             },
             reminder_enable: true,
-            callback_url: `http://localhost:3000/payment/${orderId}`,
+            callback_url: `http://localhost:3000/payments/${orderId}`,
             callback_method: 'get'
         }
 
@@ -45,7 +45,7 @@ const createpaymentLink = async(orderId)=>{
 
 const updatePaymentInformation = async (reqData)=>{
 
-    const paymentId = reqData.payment_id;
+    const paymentId = reqData.razorpay_payment_id;
     const orderId = reqData.order_id;
 
     try {
@@ -53,7 +53,7 @@ const updatePaymentInformation = async (reqData)=>{
         const order = await findOrderById(orderId);
         const payment = razorpay.payments.fetch(paymentId)
 
-        if ((await payment).status === "captured"){
+        if (payment.status === "captured"){
             order.paymentDetails.paymentId = paymentId;
             order.paymentDetails.status = "COMPLETED";
             order.orderStatus = "PLACED";

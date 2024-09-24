@@ -126,31 +126,35 @@ export default function Product() {
   const content = product?.products?.products?.content || [];
 
   useEffect(() => {
-    try {
-      setLoading(true);
-      const [minPrice, maxPrice] =
-        priceValue && priceValue !== "0-0"
-          ? priceValue.split("-").map(Number)
-          : [0, 0];
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const [minPrice, maxPrice] =
+          priceValue && priceValue !== "0-0"
+            ? priceValue.split("-").map(Number)
+            : [0, 0];
 
-      const data = {
-        category: param.levelThree,
-        colors: colorValue || [],
-        minPrice,
-        maxPrice,
-        sizes: sizeValue || [],
-        minDiscount: discountValue || [],
-        sort: sortValue || "priceLow",
-        pageNumber: pageNumber - 1,
-        pageSize: 1,
-        stock: stock,
-      };
-      dispatch(findProducts(data));
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+        const data = {
+          category: param.levelThree,
+          colors: colorValue || [],
+          minPrice,
+          maxPrice,
+          sizes: sizeValue || [],
+          minDiscount: discountValue || [],
+          sort: sortValue || "priceLow",
+          pageNumber, // Use the pageNumber from the URL
+          pageSize: 10, // Adjusted pageSize for more products per page
+          stock,
+        };
+        await dispatch(findProducts(data)); // Assuming findProducts handles the async logic
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, [
     param.levelThree,
     colorValue,
@@ -158,8 +162,9 @@ export default function Product() {
     priceValue,
     discountValue,
     sortValue,
-    pageNumber,
+    pageNumber, // Ensure to include pageNumber in the dependencies
     stock,
+    dispatch,
   ]);
 
   const handleFilter = (sectionId, value) => {
@@ -341,7 +346,7 @@ export default function Product() {
                   </Disclosure>
                 ))}
               </form>
-              <div className="lg:col-span-4 w-full ">
+              <div className="lg:col-span-7 w-full ">
                 <div className="flex flex-wrap justify-center bg-white border py-5 rounded-md ">
                 {loading ? (
                   <p>Loading...</p>

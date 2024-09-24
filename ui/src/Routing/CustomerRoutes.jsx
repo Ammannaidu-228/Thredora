@@ -22,7 +22,6 @@ function CustomerRoutes() {
         <Route path='/account/order' element={<Order />} />
         <Route path='/account/order/:orderId' element={<OrderDetails />} />
         <Route path='/payments/:orderId' element={<PaymentSuccess />} />
-
       </Routes>
     </div>
   )

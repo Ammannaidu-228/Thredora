@@ -5,6 +5,9 @@ async function findUsersCarts(req,res) {
     const user = req.user;
     try {
         const userCart = await findUSerCart(user._id)
+        if(!userCart){
+            return res.status(404).send({message:"User Cart Not Found"})
+        }
         return res.status(200).send(userCart)
         
     } catch (error) {

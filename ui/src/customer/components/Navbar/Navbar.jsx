@@ -58,7 +58,7 @@ const navigation = {
           name: "Clothing",
           items: [
             { name: "Tops", href: "#" },
-            { name: "Dresses", href: "#" },
+            { name: "Dress", href: "#" },
             { name: "Pants", href: "#" },
             { name: "Denim", href: "#" },
             { name: "Sweaters", href: "#" },
@@ -160,11 +160,14 @@ const navigation = {
 };
 import AuthModal from "../Authentication/AuthModal";
 import { store } from "../../../state/store";
+import { getCart } from "../../../state/Cart/Action";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const[isloggedin, setIsLoggedIn] = useState(false)
   let navigate = useNavigate();
-  const { auth, cart } = useSelector((store) => store);
+  const { auth } = useSelector((store) => store);
+  const {cart} = useSelector((store)=> store)
   const userToken = localStorage.getItem("userToken");
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
@@ -193,12 +196,11 @@ function Navbar() {
     navigate("/cart");
   }, 500);
 
-  const handleCategory = (category, item, section, close) => {
-    debounce(() => {
-      navigate(`/${category.id}/${section.id}/${item.id}`);
-    }, 500);
-    close();
-  };
+const handleCategory = (category, item, section, close) => {
+  navigate(`/${category.id}/${section.id}/${item.name}`);  // Navigate directly
+  close();  // Close the menu or dialog
+};
+
 
   const handleUserSignIn = (event) => {
     event.preventDefault();
@@ -215,6 +217,9 @@ function Navbar() {
     if (userToken) {
       dispatch(getUser(userToken));
       console.log("user FirstName", auth);
+      console.log("user Cart in the Navbar", cart);
+      dispatch(getCart())
+
     }
   }, [userToken, auth.userToken]);
 

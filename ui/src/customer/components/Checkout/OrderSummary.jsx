@@ -1,26 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import AddressCard from "../AddressCard/AddressCard";
 import CartItem from "../Cart/cartItem/CartItem";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useEffect } from "react";
 import { getOrderById } from "../../../state/Order/Action";
+import { createPayment } from "../../../state/Payment/Action";
 function OrderSummary() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
   const { order} = useSelector(store=> store)
   const searchParams = new URLSearchParams(location.search)
   const orderId = searchParams.get("orderId")
+
   const handlePayment = () => {
-    navigate("/payment");
+    console.log("In the Handle Payment")
+    dispatch(createPayment(orderId));
   };
 
   useEffect(()=>{
     console.log("OrderId",orderId)
     console.log("useEffect called")
     dispatch(getOrderById(orderId))
-  },[])
+  },[orderId])
   return (
     <div>
       <div className="p-5 shadow-lg rounded-s-md border">
