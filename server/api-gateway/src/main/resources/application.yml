@@ -6,13 +6,13 @@ spring:
 #          enabled: true
 #          lower-case-service-id: true
       routes:
-        - id: Shoe_Mart_Admin
-          uri: lb://Shoe_Mart_Admin
+        - id: Admin
+          uri: lb://Admin
           predicates:
             - Path=/adm/**
             
   application:
-    name: Shoe_Mart_Gateway
+    name: Gateway
 server:
   port: 5454
 eureka:

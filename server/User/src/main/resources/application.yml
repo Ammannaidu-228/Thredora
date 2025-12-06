@@ -1,11 +1,11 @@
 spring:
   application:
-    name: Shoe_Mart_User
+    name: User
   datasource:
-    url: jdbc:mysql://localhost:3306/shoe_mart
+    url: jdbc:mysql://localhost:3306/threadora
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: Rgukt@123
+    password: aman@123
   jpa:
     show-sql: true
     hibernate:
